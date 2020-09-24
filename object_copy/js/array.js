@@ -40,7 +40,8 @@ len = arr.shift();    // len:3, arr: [1]
  * Array.from
  */
 // Array.from(arraylike[,mapFn[, thisArg]])方法从一个类似数组或可迭代对象创建一个新的、浅拷贝的数组实例
-var arrlike = Array.from('foo');
+var arrlike = Array.from('foo');  // ["f", "o", "o"]
+arrlike = Array.from(new Set([]))
 console.log('arrlike:', arrlike)
 
 
