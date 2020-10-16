@@ -19,7 +19,8 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    '@/plugins/iview'
+    '@/plugins/iview',
+    // '@/plugins/axios'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -33,9 +34,17 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
+    '@nuxtjs/axios',
   ],
+
+  axios: {},
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-  }
+    extractCSS: true  // 提取公共的css样式到css文件中，网页源代码中不再展示全部的css
+  },
+
+  serverMiddleware: [
+    '~/server/index.js'
+  ]
 }

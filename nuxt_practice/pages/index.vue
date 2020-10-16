@@ -5,6 +5,7 @@
       <h2 class="title">
         nuxt_practice
       </h2>
+      <a href="https://github.com/nuxt/nuxt.js">nuxt</a>
       <div class="links">
         <NuxtLink to="about">关于我们</NuxtLink>
         <Button type="primary" target="_blank" rel="noopener noreferrer" to="https://nuxtjs.org/">
@@ -24,8 +25,39 @@
 <script>
 import Logo from '~/components/Logo.vue'
 export default {
+  name: 'homepage',
   components: {
     Logo
+  },
+  data () {
+    return {
+      user: null
+    }
+  },
+  async fetch () {
+    // this.user = await fetch (
+    //   'http://localhost:3000/api/user'
+    // ).then((res) => {
+    //   console.log('---res:', res.json());
+    //   res.json()
+    // });
+  },
+  mounted () {
+    // console.log('this.user:', this.user);
+    console.log('process.isClient:', process.client)
+    this.getUserInfo();
+  },
+  methods: {
+    getUserInfo () {
+      this.$axios({
+        url: '/api/user',
+        method: 'get'
+      }).then((res) => {
+        console.log('res:', res)
+      }).catch((err) => {
+        console.log('err:', err)
+      });
+    }
   }
 }
 </script>

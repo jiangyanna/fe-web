@@ -1,12 +1,12 @@
 <template>
-  <div class="page-about">
-    about page
+  <div class="page-error">
+    页面error
   </div>
 </template>
 
 <script>
 export default {
-  name: 'about',
+  layout: 'err',
   data () {
     return {
 
