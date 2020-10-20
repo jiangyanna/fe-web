@@ -23,11 +23,11 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+// import Logo from '~/components/Logo.vue'
 export default {
   name: 'homepage',
   components: {
-    Logo
+    // Logo
   },
   data () {
     return {
@@ -42,15 +42,16 @@ export default {
     //   res.json()
     // });
   },
+  async asyncData (context) {
+  },
   mounted () {
-    // console.log('this.user:', this.user);
     console.log('process.isClient:', process.client)
     this.getUserInfo();
   },
   methods: {
     getUserInfo () {
       this.$axios({
-        url: '/api/user',
+        url: '/user',
         method: 'get'
       }).then((res) => {
         console.log('res:', res)

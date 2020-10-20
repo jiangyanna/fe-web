@@ -24,7 +24,7 @@ export default {
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
-  components: true,
+  components: true,   // 设置true，会自动全局注册components目录下的所有内容，无须手动引入组件；值为false，须手动引入组件并完成注册
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
@@ -35,6 +35,7 @@ export default {
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     '@nuxtjs/axios',
+    '@nuxt/http'
   ],
 
   axios: {},
@@ -46,5 +47,9 @@ export default {
 
   serverMiddleware: [
     '~/server/index.js'
-  ]
+  ],
+  // server: {
+  //   port: 8888,
+  //   host: '0.0.0.0'
+  // }
 }

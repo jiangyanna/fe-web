@@ -2,7 +2,7 @@ const path = require('path');
 const app = require('express')();
 const bodyParser = require('body-parser');
 
-// app.use(bodyParser())
+app.use(bodyParser.json());
 app.get('/api/user', (req, res) => {
   const url = req.path;
   console.log('req:', req.path)
