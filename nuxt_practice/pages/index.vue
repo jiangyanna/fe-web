@@ -2,9 +2,12 @@
   <div class="container">
     <div>
       <Logo />
-      <h2 class="title">
-        nuxt_practice
-      </h2>
+      <h3 class="title">nuxt_practice</h3>
+      <div v-if="$fetchState.pending">fetch pending mountains data...</div>
+      <div v-else>fetch pending finished.</div>
+      <!-- 手动调用$fetch -->
+      <button @click="$fetch">Refresh</button>
+      <div v-if="$nuxt.isOnline">You are Online</div>
       <a href="https://github.com/nuxt/nuxt.js">nuxt</a>
       <div class="links">
         <NuxtLink to="about">关于我们</NuxtLink>
@@ -31,8 +34,25 @@ export default {
   },
   data () {
     return {
-      user: null
+      user: null,
+      mountains: []
     }
+  },
+  /**
+   * fetch和asyncData是nuxt提供的两种异步数据加载的钩子函数
+   * fetch 有this、可以在任何组件中使用，组件级别暴露$fetchState：
+   * $fetchState.pending布尔值，在客户端渲染时可以显示占位符
+   * $fetchState.error：null或fetch抛出的Error对象
+   * $fetchState.timestamp：上一次fetch请求的时间戳
+   * 
+   * asyncData 没有this、只能在页面组件中使用，会阻塞路由导航，失败时可以通过context.error方法处理跳转layout/error页面
+   * asyncData会将其return的数据与本地的vue组件的data对象进行合并
+   */
+  fetchOnServer: true,  // boolean/function，默认true服务端渲染，设置为false则只在客户端调用fetch
+  fetchDelay: 200,     // integer默认200，单位毫秒，设置最短执行时间
+  // fetch也可以手动调用，按钮的click事件绑定$fetch或this.$fetch()
+  watch: {
+    '$route.query': '$fetch'
   },
   async fetch () {
     // this.user = await fetch (
@@ -41,12 +61,46 @@ export default {
     //   console.log('---res:', res.json());
     //   res.json()
     // });
+    // console.log('-----fetch process.isClient:', process.client)
+    console.log('-----call fetch:')
+    this.mountains = await fetch('https://api.nuxtjs.dev/mountains').then((res) => { return res.json()})
   },
+  // context对象可以在nuxt的这些函数中使用：asyncData, plugins, middleware, nuxtServerInit
   async asyncData (context) {
+    // console.log('-----asyncData process.isClient:', process.client)
   },
+  beforeMount () {
+  },
+  // activated () {
+  //   console.log('-----activated')
+  // },
   mounted () {
+    /**
+     * $nuxt小助手（访问方式this.$nuxt或window.$nuxt）
+     * isOffline/isOnline 网络连接状态（布尔值）
+     * this.$nuxt.refresh() 页面数据局部刷新 （asyncData、fetch）
+     * 控制页面加载条 this.$nuxt.$loading .start()/.finish()
+     * fetch钩子函数中可以使用this.$nuxt.context访问context对象
+     * window.onNuxtReady 函数
+     */
+    console.log('this.$nuxt:', this.$nuxt)
+    /**
+     * process小助手  nuxt在process全局对象中注入了三个boolean变量
+     *  process.server  process.client
+     */
     console.log('process.isClient:', process.client)
-    this.getUserInfo();
+    console.log('---process:', process.server)
+    // this.getUserInfo();
+    /**
+     * onNuxtReady函数：nuxt应用加载完毕且准备好时要执行的操作（客户端执行时无需再增加交互）
+     */
+    window.onNuxtReady (() => {
+      console.log('Nuxt.js is ready and ounted')
+    })
+
+    // 
+    // console.log('---mountains:', this.mountains)
+    console.log('-----mounted')
   },
   methods: {
     getUserInfo () {
@@ -86,7 +140,7 @@ export default {
     sans-serif;
   display: block;
   font-weight: 300;
-  font-size: 100px;
+  font-size: 60px;
   color: #35495e;
   letter-spacing: 1px;
 }

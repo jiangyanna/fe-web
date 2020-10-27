@@ -16,6 +16,8 @@
                 导航一
               </template>
               <Menu-item name="1-1">
+                <!-- 通过nuxtlink渲染的页面都是客户端渲染的 process.client为true
+                  NuxtLink添加no-prefetch属性或设置:prefetch="false" 禁止某个链接的资源预加载-->
                 <NuxtLink to="/">Home page</NuxtLink>
               </Menu-item>
               <Menu-item name="1-2">
@@ -29,7 +31,9 @@
               <Menu-item name="2-1">
                 <nuxt-link to="/error">error</nuxt-link>
               </Menu-item>
-              <Menu-item name="2-2">选项二</Menu-item>
+              <Menu-item name="2-2">
+                <NuxtLink to="/posts">posts</NuxtLink>
+              </Menu-item>
             </Submenu>
             <Submenu name="3">
               <template slot="title">

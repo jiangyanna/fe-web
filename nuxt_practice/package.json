@@ -6,19 +6,30 @@
     "dev": "nuxt-ts",
     "build": "nuxt-ts build",
     "start": "nuxt-ts start",
-    "generate": "nuxt-ts generate"
+    "generate": "nuxt-ts generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore components/Logo.vue"
   },
   "dependencies": {
     "@nuxt/http": "^0.6.0",
     "@nuxt/typescript-runtime": "^2.0.0",
+    "@nuxt/utils": "^2.14.7",
     "@nuxtjs/axios": "^5.12.2",
     "core-js": "^3.6.5",
     "iview": "^3.5.4",
-    "nuxt": "^2.14.6"
+    "node-sass": "^4.14.1",
+    "nuxt": "^2.14.6",
+    "sass-loader": "^10.0.4"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.6",
     "@nuxt/typescript-build": "^2.0.3",
-    "nodemon": "^2.0.5"
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.12.0",
+    "eslint-config-prettier": "^6.14.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-vue": "^7.1.0",
+    "nodemon": "^2.0.5",
+    "prettier": "^2.1.2"
   }
 }
