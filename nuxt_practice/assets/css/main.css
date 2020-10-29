@@ -1,3 +1,14 @@
 body {
   background: #f1f1f1;
 }
+/* nuxt提供的默认transition名称是'page'，如果项对项目的每一个页面应用过渡效果，可以在全局css中设置css样式 */
+.page-enter-active, .page-leave-active {
+  transition: opacity 1s;
+}
+.page-enter, .page-leave-to {
+  opacity: 0;
+}
+
+/* .assets {
+  background: url('~assets/images/nuxtchild-err.png');
+} */

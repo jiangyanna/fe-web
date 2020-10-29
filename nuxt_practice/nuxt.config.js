@@ -43,8 +43,17 @@ export default {
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
-  components: true,   // 设置true，会自动全局注册components目录下的所有内容，无须手动引入组件；值为false，须手动引入组件并完成注册
+  // components: true,   // 设置true，会自动全局注册components目录下的所有内容，无须手动引入组件；值为false，须手动引入组件并完成注册
 
+  components: {
+    dirs: [
+      '~/components', // 该设置同components: true,
+      {
+        path: '~/components/base/',
+        prefix: 'Base'
+      }
+    ]
+  },
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
     // https://go.nuxtjs.dev/typescript
@@ -98,7 +107,15 @@ export default {
   loading: '~/components/LoadingBar.vue',  // 使用自定义loading组件
 
   router: {
-    base: '/app/',   // base属性配置后，页面链接增加base值的前缀
+    // base: '/app/',   // base属性配置后，页面链接增加base值的前缀
+    /**
+     * 禁止所有连接的prefetch，禁止单个链接prefetch可以在<NuxtLink>上添加no-prefetch属性或设置:prefetch="false"
+     * 如果想开启单个连接的prefetch 可以在NuxtLink上添加prefetch属性(nuxt > v2.10.0)
+     */
+    // prefetchLinks: false,
+    // linkActiveClass: 'custom-active-link',
+    // linkExactActiveClass: 'custom-exact-active-link',
+    linkPrefetchedClass: 'nuxt-link-prefetched',  // prefetch加载的链接设置样式，默认禁用
     // 扩展路由
     extendRoutes(routes, resolve){
       // routes.push({

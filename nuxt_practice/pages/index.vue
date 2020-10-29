@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <div>
-      <Logo />
-      <h3 class="title">nuxt_practice</h3>
-      <div v-if="$fetchState.pending">fetch pending mountains data...</div>
-      <div v-else>fetch pending finished.</div>
+      <!-- <client-only placeholder="client loading...">
+        <Mountains></Mountains>
+      </client-only> -->
+      <Mountains v-if="ready"></Mountains>
       <!-- 手动调用$fetch -->
       <button @click="$fetch">Refresh</button>
       <div v-if="$nuxt.isOnline">You are Online</div>
@@ -26,16 +26,40 @@
 </template>
 
 <script>
-// import Logo from '~/components/Logo.vue'
+// import Mountains from '~/components/mountains.vue'
 export default {
   name: 'homepage',
+  /**
+   * nuxt提供transition组件可以在路由切换时创建过渡效果/动画
+   * transition值可以是string/object/function，默认的transition name是'page'
+   * 需在css中设置过渡效果样式
+   * .home-enter-active, .home-leave-active { transition: opacity 5s; }.home-enter, .home-leave-active { opacity: 0; }
+   * 
+   * nuxt提供的默认transition名称是'page'，如果项对项目的每一个页面应用过渡效果，可以在全局css中设置css样式，nuxt.config.js中引入全局css：
+   * css: [~/assets/main.css]
+   *
+   */
+  // transition: 'home',  // String
+  // transition: {
+  //   name: 'home',
+  //   mode: ''
+  // },  // Object
+  // transition (to, from) {
+  //   if (!from) {
+  //     return 'slide-left'
+  //   }
+  // },
   components: {
-    // Logo
+    // Mountains
+    // Mountains: () => {
+    //   import('~/components/mountains.vue')
+    // }
   },
   data () {
     return {
       user: null,
-      mountains: []
+      mountains: [],
+      ready: false
     }
   },
   /**
@@ -62,12 +86,13 @@ export default {
     //   res.json()
     // });
     // console.log('-----fetch process.isClient:', process.client)
-    console.log('-----call fetch:')
+    console.log('-----call fetch process.server:', process.server)
     this.mountains = await fetch('https://api.nuxtjs.dev/mountains').then((res) => { return res.json()})
   },
   // context对象可以在nuxt的这些函数中使用：asyncData, plugins, middleware, nuxtServerInit
   async asyncData (context) {
-    // console.log('-----asyncData process.isClient:', process.client)
+    console.log('-----asyncData process.isClient:', process.client)
+    return {renderOn: process.client ? 'client' : 'server' }
   },
   beforeMount () {
   },
@@ -96,10 +121,11 @@ export default {
      */
     window.onNuxtReady (() => {
       console.log('Nuxt.js is ready and ounted')
+      setTimeout(() => {
+        this.ready = true;
+      }, 500);
     })
 
-    // 
-    // console.log('---mountains:', this.mountains)
     console.log('-----mounted')
   },
   methods: {
@@ -118,6 +144,10 @@ export default {
 </script>
 
 <style>
+/* 对应transition名称设置的过渡样式 */
+.home-enter-active, .home-leave-active { transition: opacity 1s; }
+.home-enter, .home-leave-active { opacity: 0; }
+
 .container {
   margin: 0 auto;
   min-height: 100vh;
